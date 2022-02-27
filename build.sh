@@ -5,6 +5,8 @@ SPARK_VERSION="3.0.0"
 HADOOP_VERSION="2.7"
 JUPYTERLAB_VERSION="2.1.5"
 
+image_name := 'pyspark-example:dev'
+
 # -- Building the Images
 
 docker build \
