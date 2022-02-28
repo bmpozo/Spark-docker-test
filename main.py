@@ -16,8 +16,7 @@ def apply_getGroups(df_input: DataFrame) -> DataFrame:
     
     return data_sessions
 
-def apply_top50(df_all: DataFrame) -> DataFrame:
-    
+def apply_top50(df_all: DataFrame) -> DataFrame: 
     w_3 = Window.orderBy(F.col('number_songs').desc())
 
     data_top50_sessions = df_all \
@@ -56,7 +55,7 @@ if __name__ == "__main__":
         .add("musicbrainz-track-id",StringType(),True) \
         .add("track-name",StringType(),True)
     
-    df = spark.read.options(header='False',schema=schema,delimiter='\t').csv("userid-timestamp-artid-artname-traid-traname.tsv")
+    df = spark.read.options(header='False',schema=schema,delimiter='\t').csv("file:///tmp/spark_scripts/data/lastfm-dataset-1K/userid-timestamp-artid-artname-traid-traname.tsv")
 
     data = df.toDF('userid', 'timestamp', 'musicbrainz-artist-id','artist-name','musicbrainz-track-id','track-name') \
         .withColumn('eventtime',F.col('timestamp').astype('Timestamp').cast("long"))
@@ -64,7 +63,7 @@ if __name__ == "__main__":
     df_allgroups = apply_getGroups(data)
 
     top50_sessions = apply_top50(df_allgroups)
-    top50_sessions.coalesce(1).write.format('com.databricks.spark.csv').save('data_top50_sessions.csv',header = 'true')
+    top50_sessions.coalesce(1).write.format('com.databricks.spark.csv').save('file:///tmp/spark_scripts/output/data_top50_sessions.csv',header = 'true')
 
     top10_songs = apply_top10(df_allgroups,top50_sessions)
-    top10_songs.coalesce(1).write.format('com.databricks.spark.csv').save('data_top10_songs.csv',header = 'true')
+    top10_songs.coalesce(1).write.format('com.databricks.spark.csv').save('file:///tmp/spark_scripts/output/data_top10_songs.csv',header = 'true')
