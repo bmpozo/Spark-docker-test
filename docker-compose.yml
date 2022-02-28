@@ -17,6 +17,8 @@ services:
     ports:
       - 8080:8080
       - 7077:7077
+      - 8032:8032
+      - 8050:8050
     volumes:
       - shared-workspace:/opt/workspace
   spark-worker-1:

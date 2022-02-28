@@ -18,6 +18,8 @@ ENV SPARK_HOME /usr/bin/spark-${spark_version}-bin-hadoop${hadoop_version}
 ENV SPARK_MASTER_HOST spark-master
 ENV SPARK_MASTER_PORT 7077
 ENV PYSPARK_PYTHON python3
+ENV HADOOP_CONF_DIR ${SPARK_HOME}}/etc/hadoop
+ENV YARN_CONF_DIR ${SPARK_HOME}}/etc/hadoop
 
 # -- Runtime
 
